@@ -1,10 +1,12 @@
+from django.utils import timezone
+
 from rest_framework import serializers
 
 from . import models
 
 
 class BookProfileSerializer(serializers.ModelSerializer):
-    """A serializer for our book proifle objects."""
+    """A serializer for our book profile objects."""
 
     class Meta:
         model = models.BookProfile
@@ -39,3 +41,63 @@ class BookProfileSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+
+class IssueReturnSerializer(serializers.ModelSerializer):
+    """A serializer for books currently issused object."""
+
+    class Meta:
+        model = models.BooksCurrentlyIssued
+        fields = ('serial_no', 'employee_code')
+
+    def create(self, validated_data):
+        """Createa a new entry in book's issue return model."""
+        issued_book = models.BooksCurrentlyIssued(
+            serial_no=validated_data['serial_no'],
+            employee_code=validated_data['employee_code'],
+            issue_date=timezone.now()
+        )
+
+        issued_book.save()
+        return issued_book
+
+    def update(self, instance, validated_data):
+        """Update an existing record in case of a reissue."""
+        instance.serial_no = validated_data.get('serial_no', instance.serial_no)
+        instance.employee_code = validated_data.get('employee_code', instance.employee_code)
+        instance.issue_date = validated_data.get('issue_date', instance.issue_date)
+
+        instance.save()
+        return instance
+
+
+class IssueReturnHistorySerializer(serializers.ModelSerializer):
+    """A serializer for books currently issused object."""
+
+    class Meta:
+        model = models.BooksCurrentlyIssued
+        fields = ('serial_no', 'employee_code')
+
+    def create(self, validated_data):
+        """Createa a new entry in book's issue return model."""
+        issued_book = models.BooksIssueReturnHistory(
+            serial_no=validated_data['serial_no'],
+            employee_code=validated_data['employee_code'],
+            issue_date=timezone.now()
+        )
+
+        issued_book.save()
+        return issued_book
+
+    def update(self, instance, validated_data):
+        """Update an existing record in case of a reissue."""
+        instance.serial_no = validated_data.get('serial_no', instance.serial_no)
+        instance.employee_code = validated_data.get('employee_code', instance.employee_code)
+        instance.issue_date = validated_data.get('issue_date', instance.issue_date)
+        instance.return_date = validated_data.get('return_date', instance.return_date)
+        instance.save()
+        return instance
+
+
+
+

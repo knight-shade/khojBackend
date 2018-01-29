@@ -98,15 +98,27 @@ class BookProfile(models.Model):
         return self.account_no + " : " + self.title
 
 
+class BooksCurrentlyIssued(models.Model):
+    """Represents all the books that are currently issued to employee."""
+    serial_no = models.PositiveIntegerField(primary_key=True)
+    employee_code = models.CharField(max_length=100)
+    issue_date = models.DateTimeField()
+
+    def __str__(self):
+        """Returns books's serial number"""
+
+        return str(self.serial_no) + " : " + str(self.employee_code)
+
+
 class BooksIssueReturnHistory(models.Model):
     """Represents all the book issue and return taken place till date."""
 
-    serial_no = models.ForeignKey(BookProfile, on_delete=models.CASCADE)
-    employee_code = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    serial_no = models.PositiveIntegerField(primary_key=True)
+    employee_code = models.CharField(max_length=100)
     issue_date = models.DateTimeField()
-    return_date = models.DateTimeField()
+    return_date = models.DateTimeField(null=True)
 
     def __str__(self):
-        """Returns books history"""
+        """Returns book's serial number"""
 
-        return self.serial_no
+        return str(self.serial_no) + " : " + str(self.employee_code)
