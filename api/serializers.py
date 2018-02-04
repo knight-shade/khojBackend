@@ -48,12 +48,13 @@ class IssueReturnSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.BooksCurrentlyIssued
-        fields = ('serial_no', 'employee_code', 'issue_date')
+        fields = ('serial_no', 'employee_code')
 
     def create(self, validated_data):
         """Create a a new entry in book's issue return model."""
+        book = models.BookProfile.objects.get(account_no__exact=validated_data['serial_no'])
         issued_book = models.BooksCurrentlyIssued(
-            serial_no=validated_data['serial_no'],
+            serial_no= book.serial_no,
             employee_code=validated_data['employee_code'],
             issue_date=timezone.now()
         )

@@ -100,7 +100,7 @@ class BookProfile(models.Model):
 
 class BooksCurrentlyIssued(models.Model):
     """Represents all the books that are currently issued to employee."""
-    serial_no = models.PositiveIntegerField(primary_key=True)
+    serial_no = models.CharField(max_length=20, primary_key=True)
     employee_code = models.CharField(max_length=100)
     issue_date = models.DateTimeField()
 
