@@ -100,5 +100,27 @@ class IssueReturnHistorySerializer(serializers.ModelSerializer):
         return instance
 
 
+class ParticipantProfileSerializer(serializers.ModelSerializer):
+    """A serializer for participant profile."""
+
+    class Meta:
+        model = models.ParticipantProfile
+        fields = ('name', 'mobile_number', 'email', 'organisation', 'designation')
+
+    def create(self, validated_data):
+        """Create a new entry in participant model."""
+
+        participant = models.ParticipantProfile(
+            name=validated_data['name'],
+            mobile_number=validated_data['mobile_number'],
+            email=validated_data['email'],
+            organisation=validated_data['organisation'],
+            designation=validated_data['designation']
+        )
+
+        participant.save()
+        return participant
+
+
 
 

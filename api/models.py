@@ -122,3 +122,19 @@ class BooksIssueReturnHistory(models.Model):
         """Returns book's serial number"""
 
         return str(self.serial_no) + " : " + str(self.employee_code)
+
+
+class ParticipantProfile(models.Model):
+    """Represents the data entered by the participant."""
+
+    name = models.CharField(max_length=50)
+    mobile_number = models.PositiveIntegerField()
+    email = models.EmailField()
+    organisation = models.CharField(max_length=50)
+    designation = models.CharField(max_length=50)
+
+    def __str__(self):
+        """Returns a participant's name + organisation."""
+
+        return self.name + " : " + self.organisation
+

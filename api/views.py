@@ -12,6 +12,10 @@ from . import serializers
 
 # Create your views here.
 
+class ParticipantViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.ParticipantProfileSerializer
+    queryset = models.ParticipantProfile.objects.all()
+
 
 class BookViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.BookProfileSerializer
